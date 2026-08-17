@@ -3,198 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cyberpunk AI Studio</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-
+  <title>DREAMCORE AI — Cyberpunk Universe</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
     body {
-      font-family: 'Segoe UI', Roboto, sans-serif;
-      background: #050510;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #030308;
       color: #00f0ff;
       height: 100vh;
       overflow: hidden;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
-    /* Nền hạt sáng 3D */
-    #particles-js {
+    /* Canvas Nền Hạt Tương Tác */
+    #bgCanvas {
       position: absolute;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
       z-index: 1;
     }
 
-    /* Card hiệu ứng Kính mờ Cyberpunk */
-    .glass-card {
-      position: relative;
+    /* Vệt Sáng Con Trỏ Chuột */
+    .cursor-glow {
+      position: absolute;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
       z-index: 2;
-      width: 420px;
-      padding: 30px;
-      background: rgba(10, 15, 30, 0.75);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 1px solid rgba(0, 240, 255, 0.3);
-      box-shadow: 0 0 30px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.1);
-      text-align: center;
-      transform-style: preserve-3d;
     }
 
-    h2 {
-      font-size: 24px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px #00f0ff;
-      margin-bottom: 20px;
-    }
-
-    .input-group {
-      margin-bottom: 20px;
+    /* Container Chính */
+    .main-container {
       position: relative;
-    }
-
-    input {
-      width: 100%;
-      padding: 12px 15px;
-      background: rgba(0, 0, 0, 0.5);
-      border: 1px solid #00f0ff;
-      border-radius: 8px;
-      color: #fff;
-      outline: none;
-      font-size: 14px;
-      box-shadow: inset 0 0 8px rgba(0, 240, 255, 0.3);
-    }
-
-    /* Nút bấm Neon quét sáng */
-    button {
-      width: 100%;
-      padding: 12px;
-      background: transparent;
-      border: 2px solid #ff007f;
-      color: #ff007f;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
-    }
-
-    button:hover {
-      background: #ff007f;
-      color: #fff;
-      box-shadow: 0 0 25px #ff007f;
-    }
-
-    /* Khung hiển thị ảnh với hiệu ứng Hologram Scan */
-    .img-box {
-      margin-top: 20px;
-      width: 100%;
-      height: 250px;
-      border: 1px dashed #00f0ff;
-      border-radius: 12px;
+      z-index: 10;
       display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+      text-align: center;
+    }
+
+    /* Quả Cầu AI Core 3D */
+    .ai-core {
+      width: 100px; height: 100px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff007f 10%, #00f0ff 60%, transparent 100%);
+      box-shadow: 0 0 30px #00f0ff, 0 0 60px #ff007f, inset 0 0 20px #ffffff;
+      animation: pulse 3s infinite ease-in-out;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .ai-core:hover {
+      transform: scale(1.15) rotate(180deg);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 30px #00f0ff, 0 0 60px #ff007f; }
+      50% { transform: scale(1.08); box-shadow: 0 0 50px #ff007f, 0 0 90px #00f0ff; }
+    }
+
+    h1 {
+      font-size: 28px;
+      letter-spacing: 4px;
+      text-shadow: 0 0 15px #00f0ff;
+      text-transform: uppercase;
+    }
+
+    p.subtitle {
+      font-size: 13px;
+      color: #8a99ad;
+      letter-spacing: 2px;
+    }
+
+    /* Thẻ Bài Tarot 3D */
+    .card-stage {
+      perspective: 1000px;
+      width: 260px; height: 380px;
+    }
+
+    .card {
+      width: 100%; height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      cursor: pointer;
+    }
+
+    .card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%; height: 100%;
+      backface-visibility: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 240, 255, 0.4);
+      display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      position: relative;
-      overflow: hidden;
-      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+      backdrop-filter: blur(10px);
     }
 
-    .img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
-      border-radius: 12px;
+    /* Mặt Sau Lá Bài */
+    .card-back {
+      background: rgba(10, 15, 30, 0.85);
+      background-image: repeating-linear-gradient(45deg, rgba(0, 240, 255, 0.05) 0, rgba(0, 240, 255, 0.05) 10px, transparent 0, transparent 20px);
     }
 
-    /* Tia laser quét khi đang tạo ảnh */
-    .scanner {
-      display: none;
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 5px;
+    .card-back::after {
+      content: '❖';
+      font-size: 40px;
+      color: #00f0ff;
+      text-shadow: 0 0 15px #00f0ff;
+    }
+
+    /* Mặt Trước Lá Bài */
+    .card-front {
+      background: rgba(15, 5, 25, 0.9);
+      transform: rotateY(180deg);
+      border-color: #ff007f;
+      box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
+    }
+
+    .card-title {
+      font-size: 20px;
+      color: #ff007f;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px #ff007f;
+    }
+
+    .card-stats {
+      font-size: 12px;
+      color: #00f0ff;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .card-lore {
+      font-size: 13px;
+      color: #d1d5db;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    /* Nút Bấm Neon */
+    .btn-action {
+      padding: 12px 28px;
+      background: transparent;
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      font-weight: bold;
+      letter-spacing: 2px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+    }
+
+    .btn-action:hover {
       background: #00f0ff;
-      box-shadow: 0 0 15px #00f0ff, 0 0 30px #00f0ff;
-      animation: scan 1.5s infinite linear;
-    }
-
-    @keyframes scan {
-      0% { top: 0; }
-      50% { top: 100%; }
-      100% { top: 0; }
+      color: #000;
+      box-shadow: 0 0 25px #00f0ff;
     }
   </style>
 </head>
 <body>
 
-  <div id="particles-js"></div>
+  <canvas id="bgCanvas"></canvas>
+  <div class="cursor-glow" id="cursorGlow"></div>
 
-  <div class="glass-card" data-tilt data-tilt-max="15" data-tilt-speed="400">
-    <h2>⚡ AI Core Visualizer</h2>
-    
-    <div class="input-group">
-      <input type="text" id="prompt" placeholder="Nhập ý tưởng (vd: Cyberpunk city at night)...">
+  <div class="main-container">
+    <div class="ai-core" onclick="resetCard()" title="Click để giải phóng năng lượng"></div>
+    <h1>DREAMCORE AI</h1>
+    <p class="subtitle">CHẠM VÀO LÁ BÀI ĐỂ KHAI PHÁ QUẺ MỆNH VŨ TRỤ</p>
+
+    <!-- Thẻ Bài 3D -->
+    <div class="card-stage">
+      <div class="card" id="tarotCard" onclick="flipCard()">
+        <div class="card-face card-back">
+          <span style="font-size: 11px; margin-top: 15px; color: #00f0ff;">[ CLICK ĐỂ LẬT BÀI ]</span>
+        </div>
+        <div class="card-face card-front">
+          <div class="card-title" id="cardName">THE MATRIX</div>
+          <div class="card-stats" id="cardStats">POWER: 99 | SYNC: 100%</div>
+          <div class="card-lore" id="cardLore">"Vũ trụ đang tái cấu trúc các dòng dữ liệu để mở ra lối đi mới cho bạn."</div>
+        </div>
+      </div>
     </div>
 
-    <button onclick="createAI()">Khởi tạo dữ liệu</button>
-
-    <div class="img-box" id="imgContainer">
-      <div class="scanner" id="scanner"></div>
-      <span id="placeholderText" style="font-size: 13px; color: #888;">[ Sẵn sàng nhận lệnh ]</span>
-      <img id="aiImage" src="" alt="AI Output">
-    </div>
+    <button class="btn-action" onclick="drawNewCard()">BỐC LÁ BÀI KHÁC</button>
   </div>
 
   <script>
-    // 1. Khởi tạo hiệu ứng nền hạt
-    particlesJS("particles-js", {
-      "particles": {
-        "number": { "value": 80 },
-        "color": { "value": "#00f0ff" },
-        "shape": { "type": "circle" },
-        "opacity": { "value": 0.5 },
-        "size": { "value": 3 },
-        "line_linked": { "enable": true, "distance": 150, "color": "#00f0ff", "opacity": 0.2, "width": 1 },
-        "move": { "enable": true, "speed": 2 }
-      }
+    // 1. Xử lý Nền Hạt Interactive Canvas
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const mouse = { x: null, y: null };
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+      document.getElementById('cursorGlow').style.left = e.x + 'px';
+      document.getElementById('cursorGlow').style.top = e.y + 'px';
     });
 
-    // 2. Xử lý logic tạo ảnh & animation laser
-    function createAI() {
-      const prompt = document.getElementById('prompt').value.trim();
-      const scanner = document.getElementById('scanner');
-      const img = document.getElementById('aiImage');
-      const placeholder = document.getElementById('placeholderText');
+    class Particle {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = (Math.random() - 0.5) * 1.5;
+      }
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
 
-      if (!prompt) return alert("Vui lòng nhập mô tả!");
+        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
 
-      // Bật tia laser quét
-      scanner.style.display = 'block';
-      img.style.display = 'none';
-      placeholder.innerText = 'Đang tổng hợp dữ liệu...';
-
-      // Gọi API tạo ảnh
-      const url = `https://pollinations.ai/p/${encodeURIComponent(prompt)}?width=512&height=512&seed=${Math.floor(Math.random()*1000)}`;
-      
-      const tempImg = new Image();
-      tempImg.src = url;
-      tempImg.onload = () => {
-        scanner.style.display = 'none';
-        img.src = url;
-        img.style.display = 'block';
-        placeholder.style.display = 'none';
-      };
+        // Tương tác khi di chuột gần
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 100) {
+          this.x -= dx * 0.03;
+          this.y -= dy * 0.03;
+        }
+      }
+      draw() {
+        ctx.fillStyle = '#00f0ff';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
     }
 
-    // 3. Kích hoạt hiệu ứng nghiêng 3D
-    VanillaTilt.init(document.querySelector(".glass-card"));
+    for (let i = 0; i < 70; i++) particles.push(new Particle());
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // 2. Dữ liệu các lá bài AI Tarot Cyberpunk
+    const tarotData = [
+      { name: "THE CYBER ORACLE", stats: "LUCK: ★★★★★ | FOCUS: 95%", lore: "Mọi quyết định hôm nay đều được thuật toán vũ trụ ủng hộ tuyệt đối." },
+      { name: "NEON DRAGON", stats: "POWER: ★★★★☆ | ENERGY: 88%", lore: "Cơ hội bất ngờ sẽ xuất hiện từ một người bạn hoặc kết nối cũ." },
+      { name: "QUANTUM PHOENIX", stats: "REBIRTH: ★★★★★ | SHIELD: 100%", lore: "Những khó khăn nhỏ chỉ là đòn bẩy giúp bạn bứt phá rực rỡ hơn." },
+      { name: "VOID WALKER", stats: "MYSTERY: ★★★☆☆ | INTUITION: 92%", lore: "Hãy tin vào linh cảm của bản thân, câu trả lời nằm ngay bên trong bạn." }
+    ];
+
+    let isFlipped = false;
+
+    function flipCard() {
+      const card = document.getElementById('tarotCard');
+      card.classList.toggle('flipped');
+      isFlipped = !isFlipped;
+    }
+
+    function resetCard() {
+      const card = document.getElementById('tarotCard');
+      card.classList.remove('flipped');
+      isFlipped = false;
+    }
+
+    function drawNewCard() {
+      const card = document.getElementById('tarotCard');
+      card.classList.remove('flipped');
+      
+      setTimeout(() => {
+        const randomItem = tarotData[Math.floor(Math.random() * tarotData.length)];
+        document.getElementById('cardName').innerText = randomItem.name;
+        document.getElementById('cardStats').innerText = randomItem.stats;
+        document.getElementById('cardLore').innerText = `"${randomItem.lore}"`;
+        card.classList.add('flipped');
+      }, 400);
+    }
   </script>
 </body>
 </html>
