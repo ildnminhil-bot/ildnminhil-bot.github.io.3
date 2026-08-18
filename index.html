@@ -2,306 +2,89 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DREAMCORE AI — Cyberpunk Universe</title>
+  <title>CYBER AUDIO SYNTHESIZER</title>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #030308;
-      color: #00f0ff;
-      height: 100vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    /* Canvas Nền Hạt Tương Tác */
-    #bgCanvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 1;
-    }
-
-    /* Vệt Sáng Con Trỏ Chuột */
-    .cursor-glow {
-      position: absolute;
-      width: 250px; height: 250px;
-      background: radial-gradient(circle, rgba(0, 240, 255, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-
-    /* Container Chính */
-    .main-container {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 25px;
-      text-align: center;
-    }
-
-    /* Quả Cầu AI Core 3D */
-    .ai-core {
-      width: 100px; height: 100px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #ff007f 10%, #00f0ff 60%, transparent 100%);
-      box-shadow: 0 0 30px #00f0ff, 0 0 60px #ff007f, inset 0 0 20px #ffffff;
-      animation: pulse 3s infinite ease-in-out;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .ai-core:hover {
-      transform: scale(1.15) rotate(180deg);
-    }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); box-shadow: 0 0 30px #00f0ff, 0 0 60px #ff007f; }
-      50% { transform: scale(1.08); box-shadow: 0 0 50px #ff007f, 0 0 90px #00f0ff; }
-    }
-
-    h1 {
-      font-size: 28px;
-      letter-spacing: 4px;
-      text-shadow: 0 0 15px #00f0ff;
-      text-transform: uppercase;
-    }
-
-    p.subtitle {
-      font-size: 13px;
-      color: #8a99ad;
-      letter-spacing: 2px;
-    }
-
-    /* Thẻ Bài Tarot 3D */
-    .card-stage {
-      perspective: 1000px;
-      width: 260px; height: 380px;
-    }
-
-    .card {
-      width: 100%; height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      cursor: pointer;
-    }
-
-    .card.flipped {
-      transform: rotateY(180deg);
-    }
-
-    .card-face {
-      position: absolute;
-      width: 100%; height: 100%;
-      backface-visibility: hidden;
-      border-radius: 16px;
-      border: 1px solid rgba(0, 240, 255, 0.4);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
-      backdrop-filter: blur(10px);
-    }
-
-    /* Mặt Sau Lá Bài */
-    .card-back {
-      background: rgba(10, 15, 30, 0.85);
-      background-image: repeating-linear-gradient(45deg, rgba(0, 240, 255, 0.05) 0, rgba(0, 240, 255, 0.05) 10px, transparent 0, transparent 20px);
-    }
-
-    .card-back::after {
-      content: '❖';
-      font-size: 40px;
-      color: #00f0ff;
-      text-shadow: 0 0 15px #00f0ff;
-    }
-
-    /* Mặt Trước Lá Bài */
-    .card-front {
-      background: rgba(15, 5, 25, 0.9);
-      transform: rotateY(180deg);
-      border-color: #ff007f;
-      box-shadow: 0 0 30px rgba(255, 0, 127, 0.4);
-    }
-
-    .card-title {
-      font-size: 20px;
-      color: #ff007f;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #ff007f;
-    }
-
-    .card-stats {
-      font-size: 12px;
-      color: #00f0ff;
-      margin-bottom: 15px;
-      line-height: 1.6;
-    }
-
-    .card-lore {
-      font-size: 13px;
-      color: #d1d5db;
-      font-style: italic;
-      line-height: 1.4;
-    }
-
-    /* Nút Bấm Neon */
-    .btn-action {
-      padding: 12px 28px;
-      background: transparent;
-      border: 1px solid #00f0ff;
-      color: #00f0ff;
-      font-weight: bold;
-      letter-spacing: 2px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
-    }
-
-    .btn-action:hover {
-      background: #00f0ff;
-      color: #000;
-      box-shadow: 0 0 25px #00f0ff;
-    }
+    body { margin: 0; background: #020208; color: #00f0ff; font-family: monospace; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+    canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+    .ui { position: relative; z-index: 10; text-align: center; background: rgba(5,15,30,0.85); padding: 30px; border-radius: 15px; border: 1px solid #00f0ff; box-shadow: 0 0 30px rgba(0,240,255,0.3); }
+    button { margin: 10px; padding: 12px 20px; background: transparent; border: 1px solid #ff007f; color: #ff007f; font-weight: bold; cursor: pointer; border-radius: 8px; transition: 0.3s; }
+    button:hover { background: #ff007f; color: white; box-shadow: 0 0 15px #ff007f; }
   </style>
 </head>
 <body>
-
-  <canvas id="bgCanvas"></canvas>
-  <div class="cursor-glow" id="cursorGlow"></div>
-
-  <div class="main-container">
-    <div class="ai-core" onclick="resetCard()" title="Click để giải phóng năng lượng"></div>
-    <h1>DREAMCORE AI</h1>
-    <p class="subtitle">CHẠM VÀO LÁ BÀI ĐỂ KHAI PHÁ QUẺ MỆNH VŨ TRỤ</p>
-
-    <!-- Thẻ Bài 3D -->
-    <div class="card-stage">
-      <div class="card" id="tarotCard" onclick="flipCard()">
-        <div class="card-face card-back">
-          <span style="font-size: 11px; margin-top: 15px; color: #00f0ff;">[ CLICK ĐỂ LẬT BÀI ]</span>
-        </div>
-        <div class="card-face card-front">
-          <div class="card-title" id="cardName">THE MATRIX</div>
-          <div class="card-stats" id="cardStats">POWER: 99 | SYNC: 100%</div>
-          <div class="card-lore" id="cardLore">"Vũ trụ đang tái cấu trúc các dòng dữ liệu để mở ra lối đi mới cho bạn."</div>
-        </div>
-      </div>
-    </div>
-
-    <button class="btn-action" onclick="drawNewCard()">BỐC LÁ BÀI KHÁC</button>
+  <canvas id="canvas"></canvas>
+  <div class="ui">
+    <h2>⚡ CYBER AUDIO CORE</h2>
+    <p>Bấm các nút dưới đây để tạo âm thanh Sci-Fi bằng thuật toán!</p>
+    <button onclick="playLaser()">Tia Lazer 8-Bit</button>
+    <button onclick="playWarp()">Cổng Không Gian</button>
+    <button onclick="playPulse()">Xung Năng Lượng</button>
   </div>
 
   <script>
-    // 1. Xử lý Nền Hạt Interactive Canvas
-    const canvas = document.getElementById('bgCanvas');
+    // 1. Khởi tạo Web Audio API
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function playLaser() {
+      let osc = audioCtx.createOscillator();
+      let gain = audioCtx.createGain();
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+      triggerWave();
+    }
+
+    function playWarp() {
+      let osc = audioCtx.createOscillator();
+      let gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(600, audioCtx.currentTime + 0.5);
+      gain.gain.setValueAtTime(0.4, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+      triggerWave();
+    }
+
+    function playPulse() {
+      let osc = audioCtx.createOscillator();
+      let gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(60, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.5, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+      osc.connect(gain); gain.connect(audioCtx.destination);
+      osc.start(); osc.stop(audioCtx.currentTime + 0.4);
+      triggerWave();
+    }
+
+    // 2. Hiệu ứng Sóng Âm trên Canvas
+    const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
-    let particles = [];
-    const mouse = { x: null, y: null };
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let radius = 0, opacity = 0;
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    function triggerWave() { radius = 10; opacity = 1; }
 
-    window.addEventListener('mousemove', (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
-      document.getElementById('cursorGlow').style.left = e.x + 'px';
-      document.getElementById('cursorGlow').style.top = e.y + 'px';
-    });
-
-    class Particle {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 1;
-        this.speedX = (Math.random() - 0.5) * 1.5;
-        this.speedY = (Math.random() - 0.5) * 1.5;
-      }
-      update() {
-        this.x += this.speedX;
-        this.y += this.speedY;
-
-        if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
-
-        // Tương tác khi di chuột gần
-        let dx = mouse.x - this.x;
-        let dy = mouse.y - this.y;
-        let dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 100) {
-          this.x -= dx * 0.03;
-          this.y -= dy * 0.03;
-        }
-      }
-      draw() {
-        ctx.fillStyle = '#00f0ff';
+    function draw() {
+      ctx.fillStyle = 'rgba(2, 2, 8, 0.2)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (opacity > 0) {
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.arc(canvas.width/2, canvas.height/2, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(0, 240, 255, ${opacity})`;
+        ctx.lineWidth = 4;
+        ctx.stroke();
+        radius += 12; opacity -= 0.02;
       }
+      requestAnimationFrame(draw);
     }
-
-    for (let i = 0; i < 70; i++) particles.push(new Particle());
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.update();
-        p.draw();
-      });
-      requestAnimationFrame(animate);
-    }
-    animate();
-
-    // 2. Dữ liệu các lá bài AI Tarot Cyberpunk
-    const tarotData = [
-      { name: "THE CYBER ORACLE", stats: "LUCK: ★★★★★ | FOCUS: 95%", lore: "Mọi quyết định hôm nay đều được thuật toán vũ trụ ủng hộ tuyệt đối." },
-      { name: "NEON DRAGON", stats: "POWER: ★★★★☆ | ENERGY: 88%", lore: "Cơ hội bất ngờ sẽ xuất hiện từ một người bạn hoặc kết nối cũ." },
-      { name: "QUANTUM PHOENIX", stats: "REBIRTH: ★★★★★ | SHIELD: 100%", lore: "Những khó khăn nhỏ chỉ là đòn bẩy giúp bạn bứt phá rực rỡ hơn." },
-      { name: "VOID WALKER", stats: "MYSTERY: ★★★☆☆ | INTUITION: 92%", lore: "Hãy tin vào linh cảm của bản thân, câu trả lời nằm ngay bên trong bạn." }
-    ];
-
-    let isFlipped = false;
-
-    function flipCard() {
-      const card = document.getElementById('tarotCard');
-      card.classList.toggle('flipped');
-      isFlipped = !isFlipped;
-    }
-
-    function resetCard() {
-      const card = document.getElementById('tarotCard');
-      card.classList.remove('flipped');
-      isFlipped = false;
-    }
-
-    function drawNewCard() {
-      const card = document.getElementById('tarotCard');
-      card.classList.remove('flipped');
-      
-      setTimeout(() => {
-        const randomItem = tarotData[Math.floor(Math.random() * tarotData.length)];
-        document.getElementById('cardName').innerText = randomItem.name;
-        document.getElementById('cardStats').innerText = randomItem.stats;
-        document.getElementById('cardLore').innerText = `"${randomItem.lore}"`;
-        card.classList.add('flipped');
-      }, 400);
-    }
+    draw();
   </script>
 </body>
 </html>
